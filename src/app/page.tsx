@@ -1,5 +1,6 @@
 'use client'
 
+import { useAuth } from '@/components/providers/AuthProvider';
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,15 +40,40 @@ export default function Home() {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/login" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="bg-rose-600 text-white px-6 py-2 rounded-full hover:bg-rose-700 transition-all transform hover:scale-105"
-              >
-                Começar
-              </Link>
+              {loading ? (
+                <div className="animate-pulse bg-gray-200 h-8 w-24 rounded-full"></div>
+              ) : user ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}
+                  >
+                    Dashboard
+                  </Link>
+                  <div className="flex items-center space-x-2">
+                    <span className={`text-gray-100 ${isScrolled ? 'text-black' : ''}`}>
+                      {user.email?.split('@')[0]}
+                    </span>
+                    <img
+                      src={user.user_metadata.avatar_url || `https://ui-avatars.com/api/?name=${user.email}`}
+                      alt="Profile"
+                      className="w-8 h-8 rounded-full"
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
+                    Login
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="bg-rose-600 text-white px-6 py-2 rounded-full hover:bg-rose-700 transition-all transform hover:scale-105"
+                  >
+                    Começar
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
