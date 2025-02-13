@@ -27,18 +27,18 @@ export default function Home() {
               Wedding Platform
             </Link>
             <div className="hidden md:flex space-x-8">
-              <Link href="#features" className="text-gray-600 hover:text-rose-600 transition-colors">
+              <Link href="#features" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
                 Recursos
               </Link>
-              <Link href="#pricing" className="text-gray-600 hover:text-rose-600 transition-colors">
+              <Link href="#pricing" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
                 Preços
               </Link>
-              <Link href="#about" className="text-gray-600 hover:text-rose-600 transition-colors">
+              <Link href="#about" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
                 Sobre
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <Link href="/login" className="text-gray-600 hover:text-rose-600 transition-colors">
+              <Link href="/login" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
                 Login
               </Link>
               <Link
@@ -237,6 +237,176 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Pricing Section */}
+      <section id="pricing" className="py-32 px-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="max-w-6xl mx-auto"
+        >
+          <div className="text-center mb-20">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-5xl text-gray-800 font-light"
+            >
+              Planos Simples e Transparentes
+              <span className="block mt-2 text-rose-600">para seu Casamento Perfeito</span>
+            </motion.h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="w-24 h-1 bg-rose-600 mx-auto mt-8 rounded-full"
+            />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Basic Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all"
+            >
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">Básico</h3>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-800">Grátis</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Site de casamento básico
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Lista de convidados (até 50)
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  RSVP digital
+                </li>
+              </ul>
+              <Link
+                href="/signup"
+                className="block w-full text-center bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium py-3 rounded-lg transition-colors"
+              >
+                Começar Grátis
+              </Link>
+            </motion.div>
+
+            {/* Premium Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              viewport={{ once: true }}
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all border-2 border-rose-200 relative transform hover:-translate-y-1"
+            >
+              <div className="absolute top-0 right-0 bg-rose-600 text-white px-3 py-1 rounded-bl-lg rounded-tr-lg text-sm font-medium">
+                Popular
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">Premium</h3>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-800">R$199</span>
+                <span className="text-gray-600">/mês</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Tudo do plano Básico
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Lista de convidados ilimitada
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Temas premium
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Registro de presentes
+                </li>
+              </ul>
+              <Link
+                href="/signup?plan=premium"
+                className="block w-full text-center bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 rounded-lg transition-colors"
+              >
+                Começar Agora
+              </Link>
+            </motion.div>
+
+            {/* Luxury Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all"
+            >
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">Luxo</h3>
+              <div className="mb-6">
+                <span className="text-4xl font-bold text-gray-800">R$399</span>
+                <span className="text-gray-600">/mês</span>
+              </div>
+              <ul className="space-y-4 mb-8">
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Tudo do plano Premium
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Consultor dedicado
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Design personalizado
+                </li>
+                <li className="flex items-center text-gray-600">
+                  <svg className="w-5 h-5 text-rose-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Suporte prioritário 24/7
+                </li>
+              </ul>
+              <Link
+                href="/signup?plan=luxury"
+                className="block w-full text-center bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 rounded-lg transition-colors"
+              >
+                Contate-nos
+              </Link>
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Call to Action */}
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-rose-50 via-rose-100 to-rose-50">
@@ -345,7 +515,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-white py-16 px-4 border-t border-gray-100">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Plataforma</h3>
               <ul className="space-y-2">
@@ -408,7 +578,7 @@ export default function Home() {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Siga-nos</h3>
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 justify-center">
                 <a href="#" className="text-gray-600 hover:text-rose-600 transition-colors">
                   <span className="sr-only">Instagram</span>
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
