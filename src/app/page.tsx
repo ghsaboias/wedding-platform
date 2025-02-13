@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/components/providers/AuthProvider';
 import { motion } from "framer-motion";
+import { UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -29,13 +30,13 @@ export default function Home() {
               Wedding Platform
             </Link>
             <div className="hidden md:flex space-x-8">
-              <Link href="#features" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
+              <Link href="#features" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-gray-900' : ''}`}>
                 Recursos
               </Link>
-              <Link href="#pricing" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
+              <Link href="#pricing" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-gray-900' : ''}`}>
                 Preços
               </Link>
-              <Link href="#about" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
+              <Link href="#about" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-gray-900' : ''}`}>
                 Sobre
               </Link>
             </div>
@@ -43,24 +44,14 @@ export default function Home() {
               {loading ? (
                 <div className="animate-pulse bg-gray-200 h-8 w-24 rounded-full"></div>
               ) : user ? (
-                <>
-                  <Link
-                    href="/dashboard"
-                    className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}
-                  >
-                    Dashboard
-                  </Link>
-                  <div className="flex items-center space-x-2">
-                    <span className={`text-gray-100 ${isScrolled ? 'text-black' : ''}`}>
+                <Link href="/dashboard">
+                  <div className="flex items-center space-x-2 group">
+                    <span className={`${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`}>
                       {user.email?.split('@')[0]}
                     </span>
-                    <img
-                      src={user.user_metadata.avatar_url || `https://ui-avatars.com/api/?name=${user.email}`}
-                      alt="Profile"
-                      className="w-8 h-8 rounded-full"
-                    />
+                    <UserIcon className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`} />
                   </div>
-                </>
+                </Link>
               ) : (
                 <>
                   <Link href="/login" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>

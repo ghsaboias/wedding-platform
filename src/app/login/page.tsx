@@ -3,9 +3,9 @@
 import { createClient } from '@/utils/supabase/client'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
-export default function LoginPage() {
+function LoginContent() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState<string | null>(null)
@@ -55,8 +55,6 @@ export default function LoginPage() {
                     redirectTo: `${location.origin}/auth/callback`,
                 },
             })
-
-            if (error) throw error
         } catch (error) {
             setError(error instanceof Error ? error.message : 'An error occurred')
             setLoading(false)
@@ -201,17 +199,20 @@ export default function LoginPage() {
                             </button>
                         </div>
                     </div>
-
-                    <div className="text-sm text-center">
-                        <Link
-                            href="/signup"
-                            className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
-                        >
-                            Don't have an account? Sign up
-                        </Link>
-                    </div>
                 </div>
             </div>
         </div>
     )
 }
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center">
+                <div className="text-indigo-600">Loading...</div>
+            </div>
+        }>
+            <LoginContent />
+        </Suspense>
+    )
+}   

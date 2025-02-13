@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface Profile {
     full_name?: string
@@ -18,11 +18,7 @@ export default function ProfilePage() {
     const supabase = createClient()
     const router = useRouter()
 
-    useEffect(() => {
-        getProfile()
-    }, [])
-
-    async function getProfile() {
+    const getProfile = useCallback(async () => {
         try {
             const { data: { user } } = await supabase.auth.getUser()
 
@@ -44,7 +40,11 @@ export default function ProfilePage() {
         } finally {
             setLoading(false)
         }
-    }
+    }, [supabase, router])
+
+    useEffect(() => {
+        getProfile()
+    }, [getProfile])
 
     async function updateProfile(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()

@@ -3,20 +3,21 @@
 import { createClient } from '@/utils/supabase/server'
 import { format } from 'date-fns'
 import Image from 'next/image'
+// import { WeddingInfo } from '@/types/wedding-info'
 
-interface WeddingInfo {
-    wedding_date: string | null
-    venue_name: string | null
-    venue_address: string | null
-    ceremony_time: string | null
-    reception_time: string | null
-    story: string | null
-}
+// interface WeddingInfo {
+//     wedding_date: string | null
+//     venue_name: string | null
+//     venue_address: string | null
+//     ceremony_time: string | null
+//     reception_time: string | null
+//     story: string | null
+// }
 
 export default async function CouplePage({
     params,
 }: {
-    params: { id: string }
+    params: Promise<{ id: string }>
 }) {
     const supabase = await createClient()
     const { id } = await params
@@ -54,7 +55,7 @@ export default async function CouplePage({
                             Coming Soon
                         </h1>
                         <p className="text-xl text-gray-600 mb-8">
-                            This couple's wedding page is being prepared with love and care.
+                            This couple&apos;s wedding page is being prepared with love and care.
                             Please check back later for their special day details.
                         </p>
                         <div className="w-16 h-1 bg-pink-200 mx-auto rounded-full"></div>
@@ -70,7 +71,7 @@ export default async function CouplePage({
                 <div className="bg-white shadow-xl rounded-lg overflow-hidden">
                     <div className="px-4 py-5 sm:p-6">
                         <h1 className="text-3xl font-bold text-center text-gray-900 mb-8">
-                            {profile.full_name}'s Wedding
+                            {profile.full_name}&apos;s Wedding
                         </h1>
 
                         {weddingInfo.wedding_date && (
