@@ -41,10 +41,10 @@ export default function SignUpPage() {
                 <div className="w-full max-w-md space-y-8 bg-white rounded-xl shadow-lg p-8 border border-gray-100">
                     <div>
                         <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-                            Create your account
+                            Crie sua conta
                         </h2>
                         <p className="mt-2 text-center text-sm text-gray-600">
-                            Join us to start planning your perfect wedding
+                            Junte-se a nós para começar a planejar seu casamento perfeito
                         </p>
                     </div>
 
@@ -52,7 +52,7 @@ export default function SignUpPage() {
                         <div className="space-y-5">
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                    Email address
+                                    Email
                                 </label>
                                 <input
                                     id="email"
@@ -67,7 +67,7 @@ export default function SignUpPage() {
 
                             <div>
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                    Password
+                                    Senha
                                 </label>
                                 <input
                                     id="password"
@@ -82,7 +82,7 @@ export default function SignUpPage() {
 
                             <div>
                                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                                    Confirm Password
+                                    Confirmar senha
                                 </label>
                                 <input
                                     id="confirmPassword"
@@ -116,7 +116,7 @@ export default function SignUpPage() {
                                 type="submit"
                                 className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors"
                             >
-                                Create account
+                                Criar conta
                             </button>
                         </div>
                     </form>
@@ -126,7 +126,7 @@ export default function SignUpPage() {
                             href="/login"
                             className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
                         >
-                            Already have an account? Sign in
+                            Já tem uma conta? Faça login
                         </Link>
                     </div>
                 </div>

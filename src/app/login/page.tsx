@@ -75,10 +75,10 @@ function LoginContent() {
                 <div className="w-full max-w-md space-y-8 bg-white rounded-xl shadow-lg p-8 border border-gray-100">
                     <div>
                         <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
-                            Welcome back
+                            Bem-vindo de volta
                         </h2>
                         <p className="mt-2 text-center text-sm text-gray-600">
-                            Sign in to continue planning your perfect wedding
+                            Faça login para continuar planejando seu casamento perfeito
                         </p>
                     </div>
 
@@ -116,7 +116,7 @@ function LoginContent() {
                         <div className="space-y-5">
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                                    Email address
+                                    Email
                                 </label>
                                 <input
                                     id="email"
@@ -133,7 +133,7 @@ function LoginContent() {
                             </div>
                             <div>
                                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                                    Password
+                                    Senha
                                 </label>
                                 <input
                                     id="password"
@@ -156,7 +156,7 @@ function LoginContent() {
                                 disabled={loading}
                                 className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors disabled:opacity-50"
                             >
-                                {loading ? 'Signing in...' : 'Sign in'}
+                                {loading ? 'Entrando...' : 'Entrar'}
                             </button>
                         </div>
                     </form>
@@ -167,7 +167,7 @@ function LoginContent() {
                                 <div className="w-full border-t border-gray-300" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="bg-white px-2 text-gray-500">Or continue with</span>
+                                <span className="bg-white px-2 text-gray-500">Ou continue com</span>
                             </div>
                         </div>
 
@@ -195,7 +195,7 @@ function LoginContent() {
                                         fill="#EA4335"
                                     />
                                 </svg>
-                                Sign in with Google
+                                Entrar com Google
                             </button>
                         </div>
                     </div>
