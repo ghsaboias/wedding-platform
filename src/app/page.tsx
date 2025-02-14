@@ -1,8 +1,9 @@
 'use client'
 
 import { useAuth } from '@/components/providers/AuthProvider';
+import { createClient } from '@/utils/supabase/client';
 import { motion } from "framer-motion";
-import { UserIcon } from "lucide-react";
+import { LogOutIcon, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { user, loading } = useAuth();
+  const supabase = createClient();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +20,17 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
+    if (error) {
+      console.error('Erro ao sair:', error);
+    } else {
+      window.location.reload();
+    }
+  };
+
+  console.log(user, loading)
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-rose-50">
@@ -44,17 +57,28 @@ export default function Home() {
               {loading ? (
                 <div className="animate-pulse bg-gray-200 h-8 w-24 rounded-full"></div>
               ) : user ? (
-                <Link href="/dashboard">
-                  <div className="flex items-center space-x-2 group">
+                <div className="flex items-center space-x-4">
+                  <Link href="/dashboard">
+                    <div className="flex items-center space-x-2 group">
+                      <span className={`${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`}>
+                        {user.email?.split('@')[0]}
+                      </span>
+                      <UserIcon className={`w-5 h-5 ${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`} />
+                    </div>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-1 group"
+                  >
                     <span className={`${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`}>
-                      {user.email?.split('@')[0]}
+                      Sair
                     </span>
-                    <UserIcon className={`w-6 h-6 ${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`} />
-                  </div>
-                </Link>
+                    <LogOutIcon className={`w-5 h-5 ${isScrolled ? 'text-gray-900' : 'text-gray-100'} group-hover:text-rose-600 transition-colors`} />
+                  </button>
+                </div>
               ) : (
                 <>
-                  <Link href="/login" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-black' : ''}`}>
+                  <Link href="/login" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-gray-900' : ''}`}>
                     Login
                   </Link>
                   <Link
@@ -106,18 +130,30 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col sm:flex-row gap-6 justify-center"
           >
-            <Link
-              href="/signup"
-              className="bg-rose-600 hover:bg-rose-700 text-white px-10 py-4 rounded-full transition-all transform hover:scale-105 shadow-lg text-lg font-medium hover:shadow-rose-500/20"
-            >
-              Começar Agora
-            </Link>
-            <Link
-              href="/login"
-              className="bg-white/90 backdrop-blur-sm text-gray-800 px-10 py-4 rounded-full transition-all hover:bg-white hover:scale-105 shadow-lg text-lg font-medium"
-            >
-              Fazer Login
-            </Link>
+            {
+              user ? (
+                <Link
+                  href="/dashboard"
+                  className="bg-rose-600 hover:bg-rose-700 text-gray-100 px-10 py-4 rounded-full transition-all transform hover:scale-105 shadow-lg text-lg font-medium hover:shadow-rose-500/20"
+                >
+                  Meu Casamento
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/signup"
+                    className="bg-rose-600 hover:bg-rose-700 text-white px-10 py-4 rounded-full transition-all transform hover:scale-105 shadow-lg text-lg font-medium hover:shadow-rose-500/20"
+                  >
+                    Começar Agora
+                  </Link>
+                  <Link
+                    href="/login"
+                    className="bg-white/90 backdrop-blur-sm text-gray-800 px-10 py-4 rounded-full transition-all hover:bg-white hover:scale-105 shadow-lg text-lg font-medium"
+                  >
+                    Fazer Login
+                  </Link>
+                </>
+              )}
           </motion.div>
           <div className="mt-16 flex items-center justify-center space-x-8">
             <div className="text-center">

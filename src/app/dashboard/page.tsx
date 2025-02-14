@@ -1,16 +1,50 @@
 'use client'
 
+import { useAuth } from '@/components/providers/AuthProvider'
+import { createClient } from '@/utils/supabase/client'
 import { motion } from 'framer-motion'
+import { HomeIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
-
+import { useRouter } from 'next/navigation'
 // interface DashboardClientProps {
 //     user: User
 //     profile: any // Replace with proper profile type
 // }
 
 export default function DashboardClient() {
+    const { user } = useAuth()
+    const supabase = createClient()
+    const router = useRouter()
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut()
+        router.push('/')
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-white to-rose-50">
+            {/* Navigation Header */}
+            <header className="bg-white shadow-sm">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between items-center py-4">
+                        <Link href="/" className="flex items-center space-x-2 text-gray-900 hover:text-rose-600 transition-colors">
+                            <HomeIcon className="w-5 h-5" />
+                            <span>Início</span>
+                        </Link>
+                        <div className="flex items-center space-x-4">
+                            <span className="text-gray-600">{user?.email}</span>
+                            <button
+                                onClick={handleLogout}
+                                className="flex items-center space-x-1 text-gray-600 hover:text-rose-600 transition-colors"
+                            >
+                                <span>Sair</span>
+                                <LogOutIcon className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
             {/* Header Section */}
             <section className="py-16 px-4">
                 <motion.div
