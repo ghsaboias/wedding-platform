@@ -4,7 +4,6 @@ import { useAuth } from '@/components/providers/AuthProvider';
 import { createClient } from '@/utils/supabase/client';
 import { motion } from "framer-motion";
 import { LogOutIcon, UserIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -40,11 +39,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <Link href="/" className="text-2xl font-semibold text-rose-600">
-              Wedding Platform
+              Celebrando
             </Link>
             <div className="hidden md:flex space-x-8">
               <Link href="#features" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-gray-900' : ''}`}>
-                Recursos
+                Soluções
               </Link>
               <Link href="#pricing" className={`text-gray-100 hover:text-rose-600 transition-colors ${isScrolled ? 'text-gray-900' : ''}`}>
                 Preços
@@ -97,13 +96,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center text-center px-4">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/wedding-hero.jpg"
-            alt="Wedding celebration"
-            fill
-            className="object-cover"
-            priority
-          />
+          <video autoPlay muted loop className="object-cover w-full z-[-1]">
+            <source src="/fireworks.mp4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-transparent"></div>
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-white mt-20">
