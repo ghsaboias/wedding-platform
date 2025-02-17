@@ -4,11 +4,19 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['ui-avatars.com', 'utfs.io'],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
-  },
+  serverExternalPackages: ['@supabase/supabase-js'],
   webpack: (config) => {
-    config.externals = [...(config.externals || []), '@supabase/realtime-js'];
+    config.module = config.module || {};
+    config.module.rules = config.module.rules || [];
+
+    // Add rule to handle @supabase/realtime-js
+    config.module.rules.push({
+      test: /\.m?js/,
+      resolve: {
+        fullySpecified: false
+      }
+    });
+
     return config;
   },
 };
