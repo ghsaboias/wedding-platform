@@ -1,6 +1,7 @@
 'use client'
 
 import { createClient } from '@/utils/supabase/client'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
@@ -62,9 +63,10 @@ function LoginContent() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white">
+        <div className="min-h-screen bg-gradient-to-b from-timberwolf via-malta/40 to-hillary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-shadow/5 via-transparent to-transparent"></div>
             <div className="absolute top-4 left-4">
-                <Link href="/" className="flex items-center text-indigo-600 hover:text-indigo-500 transition-colors">
+                <Link href="/" className="flex items-center text-shadow hover:text-dune transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                     </svg>
@@ -72,19 +74,38 @@ function LoginContent() {
                 </Link>
             </div>
             <div className="flex min-h-screen flex-col items-center justify-center py-2 px-4">
-                <div className="w-full max-w-md space-y-8 bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="w-full max-w-md space-y-8 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-shadow/10"
+                >
                     <div>
-                        <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+                        <motion.h2
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="mt-2 text-center text-3xl font-light text-dune"
+                        >
                             Bem-vindo de volta
-                        </h2>
-                        <p className="mt-2 text-center text-sm text-gray-600">
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="mt-2 text-center text-sm text-shadow"
+                        >
                             Faça login para continuar planejando seu casamento perfeito
-                        </p>
+                        </motion.p>
                     </div>
 
                     <form className="mt-8 space-y-6" onSubmit={handleSignIn}>
                         {error && (
-                            <div className="rounded-md bg-red-50 p-4">
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="rounded-md bg-red-50 p-4"
+                            >
                                 <div className="flex">
                                     <div className="flex-shrink-0">
                                         <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -95,11 +116,15 @@ function LoginContent() {
                                         <p className="text-sm text-red-700">{error}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         )}
 
                         {successMessage && (
-                            <div className="rounded-md bg-green-50 p-4">
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="rounded-md bg-green-50 p-4"
+                            >
                                 <div className="flex">
                                     <div className="flex-shrink-0">
                                         <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
@@ -110,12 +135,12 @@ function LoginContent() {
                                         <p className="text-sm text-green-700">{successMessage}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         )}
 
                         <div className="space-y-5">
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="email" className="block text-sm font-medium text-dune">
                                     Email
                                 </label>
                                 <input
@@ -124,7 +149,7 @@ function LoginContent() {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors"
+                                    className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
                                     placeholder="you@example.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -132,7 +157,7 @@ function LoginContent() {
                                 />
                             </div>
                             <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                <label htmlFor="password" className="block text-sm font-medium text-dune">
                                     Senha
                                 </label>
                                 <input
@@ -141,7 +166,7 @@ function LoginContent() {
                                     type="password"
                                     autoComplete="current-password"
                                     required
-                                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-colors"
+                                    className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
                                     placeholder="••••••••"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -151,31 +176,35 @@ function LoginContent() {
                         </div>
 
                         <div>
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.99 }}
                                 type="submit"
                                 disabled={loading}
-                                className="group relative flex w-full justify-center rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-colors disabled:opacity-50"
+                                className="group relative flex w-full justify-center rounded-md bg-malta py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-malta/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-malta transition-colors disabled:opacity-50"
                             >
                                 {loading ? 'Entrando...' : 'Entrar'}
-                            </button>
+                            </motion.button>
                         </div>
                     </form>
 
                     <div className="mt-6">
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300" />
+                                <div className="w-full border-t border-shadow/20" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="bg-white px-2 text-gray-500">Ou continue com</span>
+                                <span className="bg-white/90 px-2 text-shadow">Ou continue com</span>
                             </div>
                         </div>
 
                         <div className="mt-6">
-                            <button
+                            <motion.button
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.99 }}
                                 onClick={handleSignInWithGoogle}
                                 disabled={loading}
-                                className="flex w-full items-center justify-center gap-3 rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4285f4] disabled:opacity-50 transition-colors"
+                                className="flex w-full items-center justify-center gap-3 rounded-md border border-shadow/20 bg-white px-3 py-2 text-sm font-semibold text-dune shadow-sm hover:bg-hillary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-malta disabled:opacity-50 transition-colors"
                             >
                                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                                     <path
@@ -196,10 +225,18 @@ function LoginContent() {
                                     />
                                 </svg>
                                 Entrar com Google
-                            </button>
+                            </motion.button>
                         </div>
                     </div>
-                </div>
+                    <div className="text-sm text-center">
+                        <Link
+                            href="/signup"
+                            className="font-medium text-shadow hover:text-dune transition-colors"
+                        >
+                            Ainda não tem uma conta? Faça cadastro
+                        </Link>
+                    </div>
+                </motion.div>
             </div>
         </div>
     )
@@ -208,8 +245,8 @@ function LoginContent() {
 export default function LoginPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center">
-                <div className="text-indigo-600">Loading...</div>
+            <div className="min-h-screen bg-gradient-to-b from-timberwolf via-malta/40 to-hillary/30 flex items-center justify-center">
+                <div className="text-malta">Loading...</div>
             </div>
         }>
             <LoginContent />
