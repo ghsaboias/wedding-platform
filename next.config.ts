@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
       }
     });
 
+    // Handle WebSocket module in Edge Runtime
+    if (process.env.NEXT_RUNTIME === 'edge') {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        ws: 'ws/browser.js',
+      };
+    }
+
     return config;
   },
 };
