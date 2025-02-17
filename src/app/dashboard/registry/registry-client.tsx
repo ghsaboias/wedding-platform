@@ -10,6 +10,7 @@ import { createClient } from '@/utils/supabase/client'
 import { User } from '@supabase/supabase-js'
 import { motion } from 'framer-motion'
 import { ArrowLeftIcon, ImageIcon, PlusIcon, SearchIcon, TrashIcon } from 'lucide-react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -207,7 +208,7 @@ export default function RegistryClient({ user, initialGifts }: RegistryClientPro
             if (data) setCategories(data)
         }
         loadCategories()
-    }, [])
+    }, [supabase])
 
     const filteredGifts = gifts.filter(gift =>
         gift.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -311,9 +312,11 @@ export default function RegistryClient({ user, initialGifts }: RegistryClientPro
                             className="bg-white rounded-xl shadow-lg overflow-hidden"
                         >
                             {gift.image_url ? (
-                                <img
+                                <Image
                                     src={gift.image_url}
                                     alt={gift.title}
+                                    width={400}
+                                    height={192}
                                     className="w-full h-48 object-cover"
                                 />
                             ) : (

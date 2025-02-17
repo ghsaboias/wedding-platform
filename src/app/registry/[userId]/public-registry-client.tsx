@@ -8,9 +8,11 @@ import { GiftWithCategoryAndContributions } from '@/types/registry'
 import { User } from '@supabase/supabase-js'
 import { motion } from 'framer-motion'
 import { ImageIcon, SearchIcon } from 'lucide-react'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import ContributionDialog from '../../dashboard/registry/contribution-dialog'
+
 interface PublicRegistryClientProps {
     profile: User
     gifts: GiftWithCategoryAndContributions[]
@@ -92,9 +94,11 @@ export default function PublicRegistryClient({ profile, gifts }: PublicRegistryC
                             className="bg-white rounded-xl shadow-lg overflow-hidden"
                         >
                             {gift.image_url ? (
-                                <img
+                                <Image
                                     src={gift.image_url}
                                     alt={gift.title}
+                                    width={400}
+                                    height={192}
                                     className="w-full h-48 object-cover"
                                 />
                             ) : (
