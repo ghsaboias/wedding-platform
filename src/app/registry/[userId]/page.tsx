@@ -4,10 +4,11 @@ import { notFound } from 'next/navigation'
 import PublicRegistryClient from './public-registry-client'
 
 export default async function PublicRegistryPage({
-    params: { userId }
+    params
 }: {
-    params: { userId: string }
+    params: Promise<{ userId: string }>
 }) {
+    const { userId } = await params
     const supabase = await createClient()
 
     // Get user profile
