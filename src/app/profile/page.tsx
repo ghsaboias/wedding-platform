@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 interface Profile {
     full_name?: string
@@ -33,10 +34,17 @@ export default function ProfilePage() {
                 .eq('id', user.id)
                 .single()
 
-            if (error) throw error
+            if (error) {
+                if (error.code === 'PGRST116') {
+                    throw new Error('Perfil não encontrado')
+                }
+                throw error
+            }
+
             if (data) setProfile(data)
         } catch (error) {
             console.error('Error loading profile:', error)
+            toast.error(error instanceof Error ? error.message : 'Erro ao carregar perfil')
         } finally {
             setLoading(false)
         }
@@ -52,7 +60,7 @@ export default function ProfilePage() {
 
         try {
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) throw new Error('No user')
+            if (!user) throw new Error('Usuário não autenticado')
 
             const updates = {
                 id: user.id,
@@ -65,10 +73,19 @@ export default function ProfilePage() {
                 .from('profiles')
                 .upsert(updates)
 
-            if (error) throw error
-            setMessage({ type: 'success', text: 'Profile updated successfully!' })
+            if (error) {
+                if (error.code === '23505') {
+                    throw new Error('Este nome de usuário já está em uso')
+                }
+                throw error
+            }
+
+            toast.success('Perfil atualizado com sucesso!')
+            setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' })
         } catch (error) {
-            setMessage({ type: 'error', text: 'Error updating profile' })
+            const errorMessage = error instanceof Error ? error.message : 'Erro ao atualizar perfil'
+            setMessage({ type: 'error', text: errorMessage })
+            toast.error(errorMessage)
         }
     }
 

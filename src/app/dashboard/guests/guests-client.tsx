@@ -205,36 +205,29 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
         const changesArray = Object.entries(changes)
 
         if (changesArray.length === 0) {
-            toast.error('Por favor, adicione ou modifique algum convidado antes de salvar.')
+            toast.info('Nenhuma alteração para salvar')
             setSaving(false)
             return
         }
 
         try {
-            // Validate required fields
-            const invalidGuests = changesArray
-                .filter(([_, change]) => !change.isDeleted)
-                .map(([_, change]) => change.current)
-                .filter(guest => !guest.name.trim())
-
-            if (invalidGuests.length > 0) {
-                toast.error('Por favor, preencha o nome de todos os convidados')
-                setSaving(false)
-                return
-            }
-
             // Handle deletions
             const deletions = changesArray
                 .filter(([_, change]) => change.isDeleted)
-                .map(([_, change]) => change.original.id)
-
-            console.log('Deletions:', deletions)
+                .map(([id]) => id)
 
             if (deletions.length > 0) {
-                await supabase
+                const { error } = await supabase
                     .from('guests')
                     .delete()
                     .in('id', deletions)
+
+                if (error) {
+                    if (error.code === 'PGRST116') {
+                        throw new Error('Alguns convidados não foram encontrados')
+                    }
+                    throw error
+                }
             }
 
             // Handle updates
@@ -242,12 +235,17 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
                 .filter(([_, change]) => !change.isNew && !change.isDeleted)
                 .map(([_, change]) => change.current)
 
-            console.log('Updates:', updates)
-
             if (updates.length > 0) {
-                await supabase
+                const { error } = await supabase
                     .from('guests')
                     .upsert(updates)
+
+                if (error) {
+                    if (error.code === '23505') {
+                        throw new Error('Conflito ao atualizar convidados - emails duplicados')
+                    }
+                    throw error
+                }
             }
 
             // Handle insertions
@@ -258,12 +256,17 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
                     return guestWithoutId
                 })
 
-            console.log('Insertions:', insertions)
-
             if (insertions.length > 0) {
-                await supabase
+                const { error } = await supabase
                     .from('guests')
                     .insert(insertions)
+
+                if (error) {
+                    if (error.code === '23505') {
+                        throw new Error('Conflito ao adicionar convidados - emails duplicados')
+                    }
+                    throw error
+                }
             }
 
             toast.success('Alterações salvas com sucesso!')
@@ -271,7 +274,7 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
             router.refresh()
         } catch (error) {
             console.error('Error saving changes:', error)
-            toast.error('Erro ao salvar alterações')
+            toast.error(error instanceof Error ? error.message : 'Erro ao salvar alterações')
         } finally {
             setSaving(false)
         }
