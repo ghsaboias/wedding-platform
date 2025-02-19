@@ -1,11 +1,13 @@
 'use client'
 
 import { useAuth } from '@/components/providers/AuthProvider'
+import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/client'
 import { motion } from 'framer-motion'
 import { HomeIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 // interface DashboardClientProps {
 //     user: User
 //     profile: any // Replace with proper profile type
@@ -19,6 +21,13 @@ export default function DashboardClient() {
     const handleLogout = async () => {
         await supabase.auth.signOut()
         router.push('/')
+    }
+
+    const handleCopyLink = async () => {
+        if (!user?.id) return
+        const link = `${window.location.origin}/registry/${user.id}`
+        await navigator.clipboard.writeText(link)
+        toast.success('Link copiado para a área de transferência!')
     }
 
     return (
@@ -140,10 +149,36 @@ export default function DashboardClient() {
                 </div>
             </section>
 
+            {/* Share Registry Section */}
+            <section className="relative px-4 mb-16">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all"
+                    >
+                        <h2 className="text-xl sm:text-2xl font-semibold text-dune mb-2 sm:mb-4">Compartilhe sua Lista de Presentes</h2>
+                        <p className="text-sm sm:text-base text-dune/70 mb-4 sm:mb-6">Compartilhe o link abaixo com seus convidados para que eles possam acessar sua lista de presentes.</p>
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                            <div className="flex-1 bg-malta/10 p-3 sm:p-4 rounded-lg text-dune/80 font-mono text-xs sm:text-sm break-all sm:truncate">
+                                {`${process.env.NEXT_PUBLIC_APP_URL}/registry/${user?.id}`}
+                            </div>
+                            <Button
+                                onClick={handleCopyLink}
+                                className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 sm:w-auto"
+                            >
+                                Copiar Link
+                            </Button>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
+
             {/* Dashboard Grid */}
             <section className="relative z-10 px-4 pb-32">
                 <div className="max-w-7xl mx-auto">
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {/* Wedding Details Card */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -154,7 +189,7 @@ export default function DashboardClient() {
                             <h2 className="text-2xl font-semibold text-dune mb-6">Detalhes do Casamento</h2>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-dune/80">Data</span>
+                                    <span className="text-dune/80 ">Data</span>
                                     <span className="text-dune font-medium">12 de Dezembro, 2024</span>
                                 </div>
                                 <div className="flex justify-between items-center">
