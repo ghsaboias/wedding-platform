@@ -38,7 +38,7 @@ export default function PublicRegistryClient({ profile, gifts }: PublicRegistryC
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-white to-rose-50">
+        <div className="min-h-screen bg-gradient-to-b from-white to-malta/10">
             {/* Header */}
             <div className="bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -134,7 +134,7 @@ export default function PublicRegistryClient({ profile, gifts }: PublicRegistryC
                                         </div>
                                         <div className="w-full bg-gray-200 rounded-full h-2">
                                             <div
-                                                className="bg-rose-600 h-2 rounded-full"
+                                                className="bg-shadow h-2 rounded-full"
                                                 style={{
                                                     width: `${Math.min(100, (gift.current_contributions / gift.total_price) * 100)}%`
                                                 }}
@@ -146,7 +146,7 @@ export default function PublicRegistryClient({ profile, gifts }: PublicRegistryC
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             <Button
-                                                className="w-full bg-rose-600 hover:bg-rose-700"
+                                                className="w-full bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 disabled:bg-gray-500 disabled:shadow-none"
                                                 onClick={() => setSelectedGift(gift)}
                                                 disabled={gift.current_contributions >= gift.total_price}
                                             >

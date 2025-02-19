@@ -39,47 +39,52 @@ function AddGuestDialog({ onAdd, user }: AddGuestDialogProps) {
     }
 
     return (
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-white">
             <DialogHeader>
-                <DialogTitle>Adicionar Convidado</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-2xl font-light text-gray-900">
+                    Adicionar Convidado
+                </DialogTitle>
+                <DialogDescription className="text-gray-600">
                     Preencha as informações do convidado abaixo.
                 </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                    <Label htmlFor="name">Nome*</Label>
+                    <Label htmlFor="name" className="text-gray-700">Nome*</Label>
                     <Input
                         id="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Nome do convidado"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                         required
                     />
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email" className="text-gray-700">Email</Label>
                     <Input
                         id="email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email do convidado"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                     />
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="phone">Telefone</Label>
+                    <Label htmlFor="phone" className="text-gray-700">Telefone</Label>
                     <Input
                         id="phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="Telefone do convidado"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                     />
                 </div>
                 <div className="grid gap-2">
-                    <Label>Status</Label>
+                    <Label className="text-gray-700">Status</Label>
                     <Select value={status} onValueChange={(value) => setStatus(value as GuestStatus)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-200 focus:border-shadow focus:ring-shadow">
                             <SelectValue placeholder="Selecione o status" />
                         </SelectTrigger>
                         <SelectContent>
@@ -90,22 +95,24 @@ function AddGuestDialog({ onAdd, user }: AddGuestDialogProps) {
                     </Select>
                 </div>
                 <div className="grid gap-2">
-                    <Label>Acompanhantes</Label>
+                    <Label className="text-gray-700">Acompanhantes</Label>
                     <div className="flex items-center gap-2">
                         <Button
                             type="button"
                             variant="outline"
                             size="icon"
                             onClick={() => setCompanions(Math.max(0, companions - 1))}
+                            className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 disabled:bg-gray-500 disabled:shadow-none"
                         >
                             <MinusIcon className="h-4 w-4" />
                         </Button>
-                        <span className="w-8 text-center">{companions}</span>
+                        <span className="w-8 text-center text-gray-900 font-medium">{companions}</span>
                         <Button
                             type="button"
                             variant="outline"
                             size="icon"
                             onClick={() => setCompanions(companions + 1)}
+                            className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 disabled:bg-gray-500 disabled:shadow-none"
                         >
                             <PlusIcon className="h-4 w-4" />
                         </Button>
@@ -113,12 +120,14 @@ function AddGuestDialog({ onAdd, user }: AddGuestDialogProps) {
                 </div>
                 <div className="flex justify-end gap-3 mt-4">
                     <DialogClose asChild>
-                        <Button type="button" variant="outline">
+                        <Button type="button" variant="outline" className="border-gray-200 hover:bg-gray-100">
                             Cancelar
                         </Button>
                     </DialogClose>
                     <DialogClose asChild>
-                        <Button type="submit">Pronto</Button>
+                        <Button type="submit" className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 disabled:bg-gray-500 disabled:shadow-none">
+                            Pronto
+                        </Button>
                     </DialogClose>
                 </div>
             </form>
@@ -281,40 +290,45 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-white to-rose-50 p-8">
-            <div className="max-w-7xl mx-auto">
+        <div className="min-h-screen bg-gradient-to-b from-timberwolf via-malta/40 to-hillary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-shadow/5 via-transparent to-transparent"></div>
+            <div className="relative z-10 max-w-7xl mx-auto space-y-6 p-4 sm:p-8">
                 {/* Header */}
-                <div className="flex justify-between items-center mb-8">
-                    <Button
-                        variant="ghost"
-                        className="bg-gray-900 hover:bg-gray-700 p-2"
-                        onClick={() => router.back()}
-                    >
-                        <ArrowLeftIcon className="w-4 h-4 text-gray-100" />
-                    </Button>
-                    <h1 className="text-3xl font-light text-gray-800">
-                        Gerenciamento de Convidados
-                    </h1>
-                    <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+                    <div className="flex items-center gap-8">
+                        <Button
+                            variant="ghost"
+                            className="bg-shadow hover:bg-dune text-white p-2 shrink-0"
+                            onClick={() => router.back()}
+                        >
+                            <ArrowLeftIcon className="w-4 h-4 text-white" />
+                        </Button>
+                        <h1 className="text-xl sm:text-4xl font-light text-gray-900">
+                            Convidados
+                        </h1>
+                    </div>
+                    <div className="flex gap-2 sm:gap-4">
                         <Button
                             onClick={handleSave}
                             disabled={saving || Object.keys(changes).length === 0}
-                            className="bg-rose-600 hover:bg-rose-700"
+                            className="flex-1 sm:flex-none bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 disabled:bg-gray-500 disabled:shadow-none text-sm sm:text-base"
                         >
                             {saving ? (
                                 'Salvando...'
                             ) : (
                                 <>
                                     <SaveIcon className="w-4 h-4 mr-2" />
-                                    Salvar Alterações
+                                    <span className="hidden sm:inline">Salvar Alterações</span>
+                                    <span className="sm:hidden">Salvar</span>
                                 </>
                             )}
                         </Button>
                         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                             <DialogTrigger asChild>
-                                <Button className="bg-gray-800 hover:bg-gray-900">
+                                <Button className="flex-1 sm:flex-none bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 text-sm sm:text-base">
                                     <PlusIcon className="w-4 h-4 mr-2" />
-                                    Adicionar Convidado
+                                    <span className="hidden sm:inline">Adicionar Convidado</span>
+                                    <span className="sm:hidden">Adicionar</span>
                                 </Button>
                             </DialogTrigger>
                             <AddGuestDialog onAdd={handleAddNewGuest} user={user} />
@@ -323,119 +337,129 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
                 </div>
 
                 {/* Search */}
-                <div className="relative mb-8">
+                <div className="relative">
                     <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                     <Input
                         type="text"
                         placeholder="Buscar convidados..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10"
+                        className="pl-10 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-shadow focus:ring-shadow"
                     />
                 </div>
 
-                {/* Guest List */}
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                {/* Guest List - Scrollable Table */}
+                <div className="bg-white rounded-xl shadow-md overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full table-fixed">
-                            <colgroup>
-                                <col className="w-[18%]" />
-                                <col className="w-[18%]" />
-                                <col className="w-[14%]" />
-                                <col className="w-[12%]" />
-                                <col className="w-[12%]" />
-                                <col className="w-[10%]" />
-                            </colgroup>
-                            <thead className="bg-gray-100">
-                                <tr>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Nome
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Email
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Telefone
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
-                                        Acompanhantes
-                                    </th>
-                                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
-                                        Ações
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {filteredGuests.map((guest) => (
-                                    <motion.tr
-                                        key={guest.id}
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="hover:bg-gray-50"
-                                    >
-                                        <td className="whitespace-nowrap px-4">
-                                            <Input
-                                                value={guest.name}
-                                                onChange={(e) => handleUpdateGuest(guest.id, 'name', e.target.value)}
-                                                className="text-gray-900"
-                                                placeholder="Nome*"
-                                            />
-                                        </td>
-                                        <td className="whitespace-nowrap px-4">
-                                            <Input
-                                                value={guest.email || ''}
-                                                onChange={(e) => handleUpdateGuest(guest.id, 'email', e.target.value)}
-                                                className="text-gray-900"
-                                                placeholder="Email"
-                                            />
-                                        </td>
-                                        <td className="whitespace-nowrap px-4">
-                                            <Input
-                                                value={guest.phone || ''}
-                                                onChange={(e) => handleUpdateGuest(guest.id, 'phone', e.target.value)}
-                                                className="text-gray-900"
-                                                placeholder="Telefone"
-                                            />
-                                        </td>
-                                        <td className="whitespace-nowrap px-4">
-                                            <Select
-                                                value={guest.status}
-                                                onValueChange={(value) => handleUpdateGuest(guest.id, 'status', value as GuestStatus)}
-                                            >
-                                                <SelectTrigger className="text-gray-700 border border-input rounded-md text-sm py-2 pr-3">
-                                                    <SelectValue placeholder="Status" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="PENDING">Pendente</SelectItem>
-                                                    <SelectItem value="CONFIRMED">Confirmado</SelectItem>
-                                                    <SelectItem value="DECLINED">Recusado</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </td>
-                                        <td className="whitespace-nowrap flex justify-center py-4">
-                                            <div className="flex items-center gap-2">
-                                                <MinusIcon className="w-5 h-5 bg-gray-200 rounded-full p-1 cursor-pointer hover:bg-gray-300" onClick={() => handleUpdateGuest(guest.id, 'number_of_companions', guest.number_of_companions - 1)} />
-                                                <span className="text-gray-900">{guest.number_of_companions}</span>
-                                                <PlusIcon className="w-5 h-5 bg-gray-200 rounded-full p-1 cursor-pointer hover:bg-gray-300" onClick={() => handleUpdateGuest(guest.id, 'number_of_companions', guest.number_of_companions + 1)} />
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-nowrap text-center">
-                                            <Button
-                                                onClick={() => handleDeleteGuest(guest)}
-                                                variant="ghost"
-                                                className="text-red-600 hover:text-red-800 hover:bg-red-50"
-                                            >
-                                                <TrashIcon className="w-4 h-4" />
-                                            </Button>
-                                        </td>
-                                    </motion.tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <div className="min-w-[800px]">
+                            <table className="w-full">
+                                <thead className="bg-gray-50">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[25%]">
+                                            Nome
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[25%]">
+                                            Email
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[20%]">
+                                            Telefone
+                                        </th>
+                                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[15%]">
+                                            Status
+                                        </th>
+                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[10%]">
+                                            Acompanhantes
+                                        </th>
+                                        <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[5%]">
+                                            Ações
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-100">
+                                    {filteredGuests.map((guest) => (
+                                        <motion.tr
+                                            key={guest.id}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            className="hover:bg-gray-50/50"
+                                        >
+                                            <td className="px-4 py-2">
+                                                <Input
+                                                    value={guest.name}
+                                                    onChange={(e) => handleUpdateGuest(guest.id, 'name', e.target.value)}
+                                                    className="text-gray-900 border-gray-200 focus:border-shadow focus:ring-shadow"
+                                                    placeholder="Nome*"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <Input
+                                                    value={guest.email || ''}
+                                                    onChange={(e) => handleUpdateGuest(guest.id, 'email', e.target.value)}
+                                                    className="text-gray-900 border-gray-200 focus:border-shadow focus:ring-shadow"
+                                                    placeholder="Email"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <Input
+                                                    value={guest.phone || ''}
+                                                    onChange={(e) => handleUpdateGuest(guest.id, 'phone', e.target.value)}
+                                                    className="text-gray-900 border-gray-200 focus:border-shadow focus:ring-shadow"
+                                                    placeholder="Telefone"
+                                                />
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <Select
+                                                    value={guest.status}
+                                                    onValueChange={(value) => handleUpdateGuest(guest.id, 'status', value as GuestStatus)}
+                                                >
+                                                    <SelectTrigger className="text-gray-700 border-gray-200 focus:border-shadow focus:ring-shadow rounded-md text-sm">
+                                                        <SelectValue placeholder="Status" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="PENDING">Pendente</SelectItem>
+                                                        <SelectItem value="CONFIRMED">Confirmado</SelectItem>
+                                                        <SelectItem value="DECLINED">Recusado</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleUpdateGuest(guest.id, 'number_of_companions', Math.max(0, guest.number_of_companions - 1))}
+                                                        className="h-8 w-8 p-0 hover:bg-malta/10"
+                                                    >
+                                                        <MinusIcon className="w-4 h-4" />
+                                                    </Button>
+                                                    <span className="text-gray-900 font-medium w-6 text-center">
+                                                        {guest.number_of_companions}
+                                                    </span>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleUpdateGuest(guest.id, 'number_of_companions', guest.number_of_companions + 1)}
+                                                        className="h-8 w-8 p-0 hover:bg-malta/10"
+                                                    >
+                                                        <PlusIcon className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-2 text-center">
+                                                <Button
+                                                    onClick={() => handleDeleteGuest(guest)}
+                                                    variant="ghost"
+                                                    className="text-shadow hover:text-dune hover:bg-malta/10 transition-colors"
+                                                >
+                                                    <TrashIcon className="w-4 h-4" />
+                                                </Button>
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

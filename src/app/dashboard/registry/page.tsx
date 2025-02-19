@@ -24,11 +24,9 @@ export default async function RegistryPage() {
         .order('created_at', { ascending: false })
 
     return (
-        <div className="container mx-auto py-8">
-            <RegistryClient
-                user={user}
-                initialGifts={gifts as GiftWithCategoryAndContributions[] || []}
-            />
-        </div>
+        <RegistryClient
+            user={user}
+            initialGifts={gifts as GiftWithCategoryAndContributions[] || []}
+        />
     )
 } 
