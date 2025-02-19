@@ -120,7 +120,7 @@ function AddGuestDialog({ onAdd, user }: AddGuestDialogProps) {
                 </div>
                 <div className="flex justify-end gap-3 mt-4">
                     <DialogClose asChild>
-                        <Button type="button" variant="outline" className="border-gray-200 hover:bg-gray-100">
+                        <Button type="button" variant="secondary" className="border-gray-200 hover:bg-gray-100 text-white">
                             Cancelar
                         </Button>
                     </DialogClose>

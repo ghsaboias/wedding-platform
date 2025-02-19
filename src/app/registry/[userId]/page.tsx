@@ -34,11 +34,9 @@ export default async function PublicRegistryPage({
         .order('created_at', { ascending: false })
 
     return (
-        <div className="container mx-auto py-8">
-            <PublicRegistryClient
-                profile={profile}
-                gifts={gifts as GiftWithCategoryAndContributions[] || []}
-            />
-        </div>
+        <PublicRegistryClient
+            profile={profile}
+            gifts={gifts as GiftWithCategoryAndContributions[] || []}
+        />
     )
 } 

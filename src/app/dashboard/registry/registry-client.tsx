@@ -224,9 +224,9 @@ function AddGiftDialog({ onAdd, categories, open, onOpenChange }: AddGiftDialogP
                     <div className="flex justify-end gap-3 mt-4">
                         <Button
                             type="button"
-                            variant="outline"
+                            variant="secondary"
                             onClick={() => onOpenChange(false)}
-                            className="border-gray-200 hover:bg-gray-100"
+                            className="border-gray-200 hover:bg-gray-100 text-white"
                         >
                             Cancelar
                         </Button>

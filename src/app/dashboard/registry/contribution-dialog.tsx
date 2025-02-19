@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { DialogClose, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { GiftWithCategoryAndContributions } from '@/types/registry'
@@ -73,10 +73,12 @@ export default function ContributionDialog({ gift, onContribute }: ContributionD
     const remainingAmount = gift.total_price - gift.current_contributions
 
     return (
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] bg-white">
             <DialogHeader>
-                <DialogTitle>Contribuir para o Presente</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className="text-2xl font-light text-gray-900">
+                    {gift.is_group_gift ? 'Contribuir para o Presente' : 'Presentear'}
+                </DialogTitle>
+                <DialogDescription className="text-gray-600">
                     {gift.is_group_gift
                         ? 'Contribua com o valor que desejar para este presente.'
                         : 'Presenteie este item.'}
@@ -84,8 +86,8 @@ export default function ContributionDialog({ gift, onContribute }: ContributionD
             </DialogHeader>
             <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                 <div className="grid gap-2">
-                    <Label>Informações do Presente</Label>
-                    <div className="text-sm text-gray-500">
+                    <Label className="text-gray-700">Informações do Presente</Label>
+                    <div className="text-sm text-dune/70 space-y-1">
                         <p>Valor total: R$ {gift.total_price.toFixed(2)}</p>
                         <p>Valor arrecadado: R$ {gift.current_contributions.toFixed(2)}</p>
                         <p>Valor restante: R$ {remainingAmount.toFixed(2)}</p>
@@ -95,7 +97,7 @@ export default function ContributionDialog({ gift, onContribute }: ContributionD
                     </div>
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="amount">Valor da Contribuição*</Label>
+                    <Label htmlFor="amount" className="text-gray-700">Valor da Contribuição*</Label>
                     <Input
                         id="amount"
                         type="number"
@@ -105,50 +107,59 @@ export default function ContributionDialog({ gift, onContribute }: ContributionD
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder="Valor da sua contribuição"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                         required
                     />
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="name">Seu Nome*</Label>
+                    <Label htmlFor="name" className="text-gray-700">Seu Nome*</Label>
                     <Input
                         id="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder="Digite seu nome"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                         required
                     />
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="email">Seu Email*</Label>
+                    <Label htmlFor="email" className="text-gray-700">Seu Email*</Label>
                     <Input
                         id="email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Digite seu email"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                         required
                     />
                 </div>
                 <div className="grid gap-2">
-                    <Label htmlFor="message">Mensagem (opcional)</Label>
+                    <Label htmlFor="message" className="text-gray-700">Mensagem (opcional)</Label>
                     <Input
                         id="message"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Deixe uma mensagem para os noivos"
+                        className="border-gray-200 focus:border-shadow focus:ring-shadow"
                     />
                 </div>
                 <div className="flex justify-end gap-3 mt-4">
-                    <DialogClose asChild>
-                        <Button type="button" variant="outline">
-                            Cancelar
-                        </Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                        <Button type="submit" disabled={loading}>
-                            {loading ? 'Contribuindo...' : 'Contribuir'}
-                        </Button>
-                    </DialogClose>
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={() => onContribute()}
+                        className="border-gray-200 hover:bg-gray-100 text-white"
+                    >
+                        Cancelar
+                    </Button>
+                    <Button
+                        type="submit"
+                        disabled={loading}
+                        className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 disabled:bg-gray-500 disabled:shadow-none"
+                    >
+                        {loading ? 'Contribuindo...' : 'Contribuir'}
+                    </Button>
                 </div>
             </form>
         </DialogContent>
