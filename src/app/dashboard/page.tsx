@@ -63,7 +63,7 @@ export default function DashboardClient() {
                     .from('wedding_info')
                     .select('*')
                     .match({ id: user.id })
-                    .single(),
+                    .maybeSingle(),
                 supabase
                     .from('guests')
                     .select('*')
