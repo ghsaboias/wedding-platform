@@ -242,16 +242,12 @@ export default function DashboardClient() {
                             >
                                 Copiar Link
                             </Button>
-                            <Link
-                                href={`/couple/${user?.id}`}
-                                target="_blank"
+                            <Button
+                                onClick={() => window.open(`/couple/${user?.id}`, '_blank')}
+                                className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 sm:w-auto"
                             >
-                                <Button
-                                    className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 sm:w-auto"
-                                >
-                                    Ver Página do Casal
-                                </Button>
-                            </Link>
+                                Ver Página do Casal
+                            </Button>
                         </div>
                     </motion.div>
                 </div>
