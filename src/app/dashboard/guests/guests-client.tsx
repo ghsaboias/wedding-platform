@@ -344,7 +344,7 @@ export default function GuestsClient({ user, initialGuests }: GuestsClientProps)
                         placeholder="Buscar convidados..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-shadow focus:ring-shadow"
+                        className="pl-10 bg-white/50 backdrop-blur-sm border-gray-200 focus:border-shadow focus:ring-shadow placeholder:text-gray-400"
                     />
                 </div>
 

@@ -3,20 +3,94 @@
 import { useAuth } from '@/components/providers/AuthProvider'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/client'
+import { format, parseISO } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { motion } from 'framer-motion'
 import { HomeIcon, LogOutIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 // interface DashboardClientProps {
 //     user: User
 //     profile: any // Replace with proper profile type
 // }
 
+interface WeddingInfo {
+    wedding_date: string | null
+    venue_name: string | null
+    venue_address: string | null
+    ceremony_time: string | null
+    reception_time: string | null
+    story: string | null
+}
+
+interface Guest {
+    id: string
+    couple_id: string
+    name: string
+    email?: string | null
+    phone?: string | null
+    status: 'PENDING' | 'CONFIRMED' | 'DECLINED'
+    number_of_companions: number
+    dietary_restrictions?: string | null
+    notes?: string | null
+    created_at: string
+    updated_at: string
+}
+
 export default function DashboardClient() {
     const { user } = useAuth()
     const supabase = createClient()
     const router = useRouter()
+    const [weddingInfo, setWeddingInfo] = useState<WeddingInfo>({
+        wedding_date: null,
+        venue_name: null,
+        venue_address: null,
+        ceremony_time: null,
+        reception_time: null,
+        story: null
+    })
+    const [guests, setGuests] = useState<Guest[]>([])
+    const [loading, setLoading] = useState(true)
+
+    const getWeddingInfoAndGuests = useCallback(async () => {
+        try {
+            if (!user) return
+
+            const [weddingResult, guestsResult] = await Promise.all([
+                supabase
+                    .from('wedding_info')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single(),
+                supabase
+                    .from('guests')
+                    .select('*')
+                    .eq('couple_id', user.id)
+            ])
+
+            if (weddingResult.error && weddingResult.error.code !== 'PGRST116') {
+                throw weddingResult.error
+            }
+
+            if (guestsResult.error) {
+                throw guestsResult.error
+            }
+
+            if (weddingResult.data) setWeddingInfo(weddingResult.data)
+            if (guestsResult.data) setGuests(guestsResult.data)
+        } catch (error) {
+            console.error('Error loading data:', error)
+            toast.error('Erro ao carregar informações')
+        } finally {
+            setLoading(false)
+        }
+    }, [supabase, user])
+
+    useEffect(() => {
+        getWeddingInfoAndGuests()
+    }, [getWeddingInfoAndGuests])
 
     const handleLogout = async () => {
         await supabase.auth.signOut()
@@ -25,7 +99,7 @@ export default function DashboardClient() {
 
     const handleCopyLink = async () => {
         if (!user?.id) return
-        const link = `${window.location.origin}/registry/${user.id}`
+        const link = `${window.location.origin}/couple/${user.id}`
         await navigator.clipboard.writeText(link)
         toast.success('Link copiado para a área de transferência!')
     }
@@ -43,7 +117,6 @@ export default function DashboardClient() {
                             <span>Início</span>
                         </Link>
                         <div className="flex items-center space-x-4">
-                            <span className="text-dune">{user?.email}</span>
                             <button
                                 onClick={handleLogout}
                                 className="flex items-center space-x-1 text-dune hover:text-shadow transition-colors"
@@ -127,17 +200,16 @@ export default function DashboardClient() {
                                     </svg>
                                 </Link>
                                 <Link
-                                    href="/dashboard/settings"
+                                    href="/profile"
                                     className="group flex items-center justify-between bg-white/10 hover:bg-white/20 text-white p-4 rounded-xl transition-all transform hover:scale-102 hover:shadow-lg"
                                 >
                                     <div className="flex items-center space-x-3">
                                         <span className="bg-white/20 p-2 rounded-lg group-hover:bg-white/30 transition-all">
                                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                             </svg>
                                         </span>
-                                        <span className="font-medium">Configurações</span>
+                                        <span className="font-medium">Informações do Casal</span>
                                     </div>
                                     <svg className="w-5 h-5 text-white/70 group-hover:text-white transition-all transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -158,11 +230,11 @@ export default function DashboardClient() {
                         transition={{ duration: 0.5 }}
                         className="bg-white/80 backdrop-blur-sm p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all"
                     >
-                        <h2 className="text-xl sm:text-2xl font-semibold text-dune mb-2 sm:mb-4">Compartilhe sua Lista de Presentes</h2>
-                        <p className="text-sm sm:text-base text-dune/70 mb-4 sm:mb-6">Compartilhe o link abaixo com seus convidados para que eles possam acessar sua lista de presentes.</p>
+                        <h2 className="text-xl sm:text-2xl font-semibold text-dune mb-2 sm:mb-4">Compartilhe sua Página do Casal</h2>
+                        <p className="text-sm sm:text-base text-dune/70 mb-4 sm:mb-6">Compartilhe o link abaixo com seus convidados para que eles possam acessar todas as informações do seu casamento.</p>
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                             <div className="flex-1 bg-malta/10 p-3 sm:p-4 rounded-lg text-dune/80 font-mono text-xs sm:text-sm break-all sm:truncate">
-                                {`${process.env.NEXT_PUBLIC_APP_URL}/registry/${user?.id}`}
+                                {`${process.env.NEXT_PUBLIC_APP_URL}/couple/${user?.id}`}
                             </div>
                             <Button
                                 onClick={handleCopyLink}
@@ -170,6 +242,16 @@ export default function DashboardClient() {
                             >
                                 Copiar Link
                             </Button>
+                            <Link
+                                href={`/couple/${user?.id}`}
+                                target="_blank"
+                            >
+                                <Button
+                                    className="bg-shadow hover:bg-dune text-white shadow-lg shadow-shadow/20 sm:w-auto"
+                                >
+                                    Ver Página do Casal
+                                </Button>
+                            </Link>
                         </div>
                     </motion.div>
                 </div>
@@ -189,16 +271,25 @@ export default function DashboardClient() {
                             <h2 className="text-2xl font-semibold text-dune mb-6">Detalhes do Casamento</h2>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-dune/80 ">Data</span>
-                                    <span className="text-dune font-medium">12 de Dezembro, 2024</span>
+                                    <span className="text-dune/80">Data</span>
+                                    <span className="text-dune font-medium">
+                                        {weddingInfo.wedding_date
+                                            ? format(parseISO(weddingInfo.wedding_date), "d 'de' MMMM, yyyy", { locale: ptBR })
+                                            : 'Não definida'}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-dune/80">Local</span>
-                                    <span className="text-dune font-medium">Jardim Botânico</span>
+                                    <span className="text-dune font-medium">
+                                        {weddingInfo.venue_name || 'Não definido'}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-dune/80">Convidados Confirmados</span>
-                                    <span className="text-dune font-medium">42/150</span>
+                                    <span className="text-dune font-medium">
+                                        {guests.filter(g => g.status === 'CONFIRMED').reduce((acc, guest) => acc + 1 + guest.number_of_companions, 0)}/
+                                        {guests.reduce((acc, guest) => acc + 1 + guest.number_of_companions, 0)}
+                                    </span>
                                 </div>
                             </div>
                         </motion.div>

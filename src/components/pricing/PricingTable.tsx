@@ -135,7 +135,7 @@ export default function PricingTable({ plans, allFeatures }: PricingTableProps) 
                                 <td key={index} className="p-4 text-center">
                                     <Link
                                         href={plan.ctaLink}
-                                        className={`${getCtaStyles(plan.ctaStyle)} inline-block py-2 px-6 rounded-full text-center transition-all transform hover:scale-105 font-medium shadow-lg hover:shadow-xl`}
+                                        className={`${getCtaStyles(plan.ctaStyle)} inline-block py-2 px-6 rounded-full text-center transition-all transform hover:scale-105 font-medium shadow-lg`}
                                     >
                                         {plan.ctaText}
                                     </Link>

@@ -1,13 +1,17 @@
 'use client'
 
+import { useAuth } from '@/components/providers/AuthProvider'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { signup } from '../login/actions'
 
 export default function SignUpPage() {
     const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
+    const { user } = useAuth()
+    const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -27,7 +31,7 @@ export default function SignUpPage() {
         try {
             await signup(formData)
         } catch (error) {
-            setError('An error occurred during sign up')
+            setError(`An error occurred during sign up: ${error}`)
         } finally {
             setLoading(false)
         }
@@ -51,116 +55,133 @@ export default function SignUpPage() {
                     transition={{ duration: 0.5 }}
                     className="w-full max-w-md space-y-8 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-shadow/10"
                 >
-                    <div>
-                        <motion.h2
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="mt-2 text-center text-3xl font-light text-dune"
-                        >
-                            Crie sua conta
-                        </motion.h2>
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.3 }}
-                            className="mt-2 text-center text-sm text-shadow"
-                        >
-                            Junte-se a nós para começar a planejar seu casamento perfeito
-                        </motion.p>
-                    </div>
-
-                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                        <div className="space-y-5">
-                            <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-dune">
-                                    Email
-                                </label>
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    required
-                                    className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
-                                    placeholder="you@example.com"
-                                    disabled={loading}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="password" className="block text-sm font-medium text-dune">
-                                    Senha
-                                </label>
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="new-password"
-                                    required
-                                    className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
-                                    placeholder="••••••••"
-                                    disabled={loading}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="confirmPassword" className="block text-sm font-medium text-dune">
-                                    Confirmar senha
-                                </label>
-                                <input
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    type="password"
-                                    autoComplete="new-password"
-                                    required
-                                    className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
-                                    placeholder="••••••••"
-                                    disabled={loading}
-                                />
-                            </div>
-                        </div>
-
-                        {error && (
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className="rounded-md bg-red-50 p-4"
-                            >
-                                <div className="flex">
-                                    <div className="flex-shrink-0">
-                                        <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <div className="ml-3">
-                                        <p className="text-sm text-red-700">{error}</p>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
-
-                        <div>
+                    {user ? (
+                        <div className="text-center space-y-6">
+                            <h2 className="text-3xl font-light text-dune">Você já tem uma conta</h2>
+                            <p className="text-shadow">Você já está logado no sistema.</p>
                             <motion.button
                                 whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.99 }}
-                                type="submit"
-                                disabled={loading}
-                                className="group relative flex w-full justify-center rounded-md bg-malta py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-malta/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-malta transition-colors disabled:opacity-50"
+                                onClick={() => router.push('/dashboard')}
+                                className="w-full justify-center rounded-md bg-malta py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-malta/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-malta transition-colors"
                             >
-                                {loading ? 'Criando conta...' : 'Criar conta'}
+                                Ir para o Dashboard
                             </motion.button>
                         </div>
-                    </form>
+                    ) : (
+                        <>
+                            <div>
+                                <motion.h2
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="mt-2 text-center text-3xl font-light text-dune"
+                                >
+                                    Crie sua conta
+                                </motion.h2>
+                                <motion.p
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                    className="mt-2 text-center text-sm text-shadow"
+                                >
+                                    Junte-se a nós para começar a planejar seu casamento perfeito
+                                </motion.p>
+                            </div>
 
-                    <div className="text-sm text-center">
-                        <Link
-                            href="/login"
-                            className="font-medium text-shadow hover:text-dune transition-colors"
-                        >
-                            Já tem uma conta? Faça login
-                        </Link>
-                    </div>
+                            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                                <div className="space-y-5">
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium text-dune">
+                                            Email
+                                        </label>
+                                        <input
+                                            id="email"
+                                            name="email"
+                                            type="email"
+                                            autoComplete="email"
+                                            required
+                                            className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
+                                            placeholder="you@example.com"
+                                            disabled={loading}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="password" className="block text-sm font-medium text-dune">
+                                            Senha
+                                        </label>
+                                        <input
+                                            id="password"
+                                            name="password"
+                                            type="password"
+                                            autoComplete="new-password"
+                                            required
+                                            className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
+                                            placeholder="••••••••"
+                                            disabled={loading}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-dune">
+                                            Confirmar senha
+                                        </label>
+                                        <input
+                                            id="confirmPassword"
+                                            name="confirmPassword"
+                                            type="password"
+                                            autoComplete="new-password"
+                                            required
+                                            className="mt-1 block w-full rounded-md border-shadow/20 shadow-sm focus:border-malta focus:ring-malta sm:text-sm transition-colors bg-white/80"
+                                            placeholder="••••••••"
+                                            disabled={loading}
+                                        />
+                                    </div>
+                                </div>
+
+                                {error && (
+                                    <motion.div
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className="rounded-md bg-red-50 p-4"
+                                    >
+                                        <div className="flex">
+                                            <div className="flex-shrink-0">
+                                                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                                </svg>
+                                            </div>
+                                            <div className="ml-3">
+                                                <p className="text-sm text-red-700">{error}</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                <div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.01 }}
+                                        whileTap={{ scale: 0.99 }}
+                                        type="submit"
+                                        disabled={loading}
+                                        className="group relative flex w-full justify-center rounded-md bg-malta py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-malta/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-malta transition-colors disabled:opacity-50"
+                                    >
+                                        {loading ? 'Criando conta...' : 'Criar conta'}
+                                    </motion.button>
+                                </div>
+                            </form>
+
+                            <div className="text-sm text-center">
+                                <Link
+                                    href="/login"
+                                    className="font-medium text-shadow hover:text-dune transition-colors"
+                                >
+                                    Já tem uma conta? Faça login
+                                </Link>
+                            </div>
+                        </>
+                    )}
                 </motion.div>
             </div>
         </div>
