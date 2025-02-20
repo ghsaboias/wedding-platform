@@ -62,7 +62,7 @@ export default function DashboardClient() {
                 supabase
                     .from('wedding_info')
                     .select('*')
-                    .eq('id', user.id)
+                    .match({ id: user.id })
                     .single(),
                 supabase
                     .from('guests')
