@@ -27,6 +27,8 @@ interface WeddingInfo {
     ceremony_time: string | null
     reception_time: string | null
     story: string | null
+    bride_name: string | null
+    groom_name: string | null
 }
 
 export default function ProfilePage() {
@@ -37,7 +39,9 @@ export default function ProfilePage() {
         venue_address: null,
         ceremony_time: null,
         reception_time: null,
-        story: null
+        story: null,
+        bride_name: null,
+        groom_name: null
     })
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
@@ -233,6 +237,29 @@ export default function ProfilePage() {
                             <div className="space-y-6">
                                 <h2 className="text-2xl font-semibold text-dune">Informações do Casamento</h2>
                                 <div className="space-y-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div>
+                                            <Label htmlFor="bride_name">Nome da Noiva</Label>
+                                            <Input
+                                                id="bride_name"
+                                                value={weddingInfo.bride_name || ''}
+                                                onChange={(e) => setWeddingInfo({ ...weddingInfo, bride_name: e.target.value })}
+                                                placeholder="Nome da noiva"
+                                                className="text-dune bg-malta/10 placeholder:text-dune/40"
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label htmlFor="groom_name">Nome do Noivo</Label>
+                                            <Input
+                                                id="groom_name"
+                                                value={weddingInfo.groom_name || ''}
+                                                onChange={(e) => setWeddingInfo({ ...weddingInfo, groom_name: e.target.value })}
+                                                placeholder="Nome do noivo"
+                                                className="text-dune bg-malta/10 placeholder:text-dune/40"
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div>
                                         <Label htmlFor="wedding_date">Data do Casamento</Label>
                                         <div className="flex flex-col sm:flex-row gap-2">

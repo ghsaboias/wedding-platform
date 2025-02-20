@@ -22,6 +22,8 @@ interface WeddingInfo {
     ceremony_time: string | null
     reception_time: string | null
     story: string | null
+    bride_name: string | null
+    groom_name: string | null
 }
 
 export default async function CouplePage({
@@ -94,7 +96,13 @@ export default async function CouplePage({
                     {/* Content Section */}
                     <div className="px-4 py-5 sm:p-6">
                         <h1 className="text-4xl font-bold text-center text-gray-900 mb-2">
-                            Casal {profile.full_name}
+                            {weddingInfo?.bride_name && weddingInfo?.groom_name ? (
+                                <>
+                                    {weddingInfo.bride_name} & {weddingInfo.groom_name}
+                                </>
+                            ) : (
+                                'Casal'
+                            )}
                         </h1>
 
                         {formattedDate && (
