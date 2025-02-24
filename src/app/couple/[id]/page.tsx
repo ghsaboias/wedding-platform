@@ -1,5 +1,6 @@
 'use server'
 
+import { PaymentSection } from '@/components/payment/PaymentSection'
 import { createClient } from '@/utils/supabase/server'
 import { format, parseISO } from 'date-fns'
 import Image from 'next/image'
@@ -154,6 +155,9 @@ export default async function CouplePage({
                                 </div>
                             </div>
                         )}
+
+                        {/* Payment Section */}
+                        <PaymentSection coupleId={id} />
                     </div>
                 </div>
             </div>
