@@ -2,8 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 
-export default function ThankYouPage() {
+function ThankYouContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const coupleId = searchParams.get('coupleId')
@@ -17,22 +18,30 @@ export default function ThankYouPage() {
     }
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
-            <div className="max-w-md w-full space-y-8 text-center">
-                <div className="space-y-4">
-                    <h1 className="text-4xl font-bold tracking-tight">Obrigado!</h1>
-                    <p className="text-xl text-muted-foreground">
-                        Seu presente foi registrado com sucesso. Os noivos serão notificados da sua contribuição.
-                    </p>
-                </div>
-
-                <Button
-                    onClick={handleReturn}
-                    className="w-full"
-                >
-                    Voltar para a página do casal
-                </Button>
+        <div className="max-w-md w-full space-y-8 text-center">
+            <div className="space-y-4">
+                <h1 className="text-4xl font-bold tracking-tight">Obrigado!</h1>
+                <p className="text-xl text-muted-foreground">
+                    Seu presente foi registrado com sucesso. Os noivos serão notificados da sua contribuição.
+                </p>
             </div>
+
+            <Button
+                onClick={handleReturn}
+                className="w-full"
+            >
+                Voltar para a página do casal
+            </Button>
+        </div>
+    )
+}
+
+export default function ThankYouPage() {
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
+            <Suspense fallback={<div>Carregando...</div>}>
+                <ThankYouContent />
+            </Suspense>
         </div>
     )
 } 
